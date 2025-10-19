@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sequence Diagram - File Upload Flow</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="page-container">
+    <header>
+      <h1>File Upload Sequence Diagram</h1>
+    </header>
+
+    <div class="diagram-container">
+      <div class="diagram">
+        <div class="actors">
+          <div class="actor">
+            <div class="actor-icon">
+              <div class="actor-head"></div>
+              <div class="actor-body"></div>
+              <div class="actor-arms"></div>
+            </div>
+            <div class="actor-name">Student</div>
+          </div>
+
+          <div class="actor">
+            <div class="actor-icon">
+              <div class="actor-head"></div>
+              <div class="actor-body"></div>
+              <div class="actor-arms"></div>
+            </div>
+            <div class="actor-name">Supervisor</div>
+          </div>
+
+          <div class="actor"><div class="component">:AuthModule</div></div>
+          <div class="actor"><div class="component">:ProjectModule</div></div>
+          <div class="actor"><div class="component">:FileStorage</div></div>
+          <div class="actor"><div class="component">:NotificationService</div></div>
+          <div class="actor"><div class="component">:Database</div></div>
+        </div>
+
+        <div class="diagram-body">
+          
+          <div class="lifelines">
+            <div class="lifeline"></div><div class="lifeline"></div><div class="lifeline"></div>
+            <div class="lifeline"></div><div class="lifeline"></div><div class="lifeline"></div>
+            <div class="lifeline"></div>
+          </div>
+
+          <div class="messages">
+            <div class="message" style="--from:1; --to:3; --y:30px;"><span class="label">login(email, pwd)</span></div>
+            <div class="message" style="--from:3; --to:7; --y:70px;"><span class="label">verifyCredentials()</span></div>
+            <div class="message dashed" style="--from:7; --to:3; --y:110px;"><span class="label">return user</span></div>
+            <div class="message dashed" style="--from:3; --to:1; --y:150px;"><span class="label">login success</span></div>
+
+            <div class="message" style="--from:1; --to:4; --y:200px;"><span class="label">uploadFile(projectID, file)</span></div>
+            <div class="message" style="--from:4; --to:5; --y:240px;"><span class="label">saveFile(file) <span class="guard">[guard: size ≤ 50 MB]</span></span></div>
+            <div class="message dashed" style="--from:5; --to:4; --y:280px;"><span class="label">confirm</span></div>
+
+            <div class="message" style="--from:4; --to:7; --y:320px;"><span class="label">logAction("File uploaded")</span></div>
+            <div class="message dashed" style="--from:7; --to:4; --y:360px;"><span class="label">logged</span></div>
+
+            <div class="message" style="--from:4; --to:6; --y:400px;"><span class="label">notifySupervisor(projectID)</span></div>
+            <div class="message" style="--from:2; --to:6; --y:440px;"><span class="label">sendEmail()</span></div>
+            <div class="message dashed" style="--from:6; --to:2; --y:480px;"><span class="label">acknowledge</span></div>
+            <div class="message dashed" style="--from:6; --to:4; --y:520px;"><span class="label">sent</span></div>
+
+            <div class="message dashed" style="--from:4; --to:1; --y:560px;"><span class="label">show success</span></div>
+
+            
+            <div class="activation" style="--actor:1; --y-start:30px; --y-end:150px;"></div>
+            <div class="activation" style="--actor:3; --y-start:30px; --y-end:150px;"></div>
+            <div class="activation" style="--actor:7; --y-start:70px; --y-end:110px;"></div>
+            
+            <div class="activation" style="--actor:1; --y-start:200px; --y-end:560px;"></div>
+            <div class="activation" style="--actor:4; --y-start:200px; --y-end:560px;"></div>
+            <div class="activation" style="--actor:5; --y-start:240px; --y-end:280px;"></div>
+            <div class="activation" style="--actor:7; --y-start:320px; --y-end:360px;"></div>
+            
+            <div class="activation" style="--actor:6; --y-start:400px; --y-end:520px;"></div>
+            <div class="activation" style="--actor:2; --y-start:440px; --y-end:480px;"></div>
+            <div class="activation" style="--actor:6; --y-start:440px; --y-end:480px;"></div>
+          </div>
+        </div> <div class="actors" style="margin-top: 30px;">
+          <div class="actor">
+            <div class="actor-icon">
+              <div class="actor-head"></div>
+              <div class="actor-body"></div>
+              <div class="actor-arms"></div>
+            </div>
+            <div class="actor-name">Student</div>
+          </div>
+
+          <div class="actor">
+            <div class="actor-icon">
+              <div class="actor-head"></div>
+              <div class="actor-body"></div>
+              <div class="actor-arms"></div>
+            </div>
+            <div class="actor-name">Supervisor</div>
+          </div>
+
+          <div class="actor"><div class="component">:AuthModule</div></div>
+          <div class="actor"><div class="component">:ProjectModule</div></div>
+          <div class="actor"><div class="component">:FileStorage</div></div>
+          <div class="actor"><div class="component">:NotificationService</div></div>
+          <div class="actor"><div class="component">:Database</div></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,258 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+  background: #f0f4f8; /* Light blue/gray background */
+  padding: 20px;
+}
+
+/* --- Page Layout --- */
+.page-container {
+  max-width: 1400px;
+  margin: 30px auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+}
+
+header {
+  padding: 24px 40px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #dde3e9;
+}
+
+header h1 {
+  text-align: center;
+  color: #2c3e50; /* Dark slate blue */
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.diagram-container {
+  padding: 0 40px 40px 40px;
+  overflow-x: auto; /* Allows diagram to scroll horizontally if needed */
+}
+
+/* --- Diagram Styles --- */
+.diagram {
+  position: relative;
+  min-width: 1000px; /* Ensures diagram has space, forces scroll if needed */
+  margin: 0 auto;
+}
+
+.actors {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  justify-items: center;
+  margin-bottom: 30px;
+}
+
+.actor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+/* --- Actor Stick Figure --- */
+.actor-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.actor-head {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #333;
+  margin-bottom: -4px;
+}
+
+.actor-body {
+  width: 2px;
+  height: 20px;
+  background: #333;
+}
+
+.actor-arms {
+  width: 20px;
+  height: 2px;
+  background: #333;
+  margin-top: -12px;
+}
+
+.actor-name {
+  font-weight: 500; /* Slightly bolder */
+  color: #333;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* --- Component Box Style --- */
+.component {
+  position: relative;
+  padding: 8px 16px;
+  padding-left: 30px;
+  background: #eaf2f8; /* Light blue */
+  border: 1px solid #b0c4de; /* Medium blue */
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: 'Courier New', Courier, monospace;
+  color: #333;
+  margin-top: 10px;
+}
+
+.component::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: -7px;
+  width: 18px;
+  height: 12px;
+  border: 1px solid #b0c4de;
+  background: #eaf2f8;
+  border-radius: 4px 4px 0 0;
+  border-bottom: none;
+}
+
+.component::after {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: -1px;
+  width: 17px;
+  height: 2px;
+  background: #eaf2f8;
+}
+
+
+/* --- Diagram Body Layout --- */
+.diagram-body {
+  position: relative;
+  height: 600px; /* This is the height of the diagram area */
+}
+
+.lifelines {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.messages {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.lifeline {
+  width: 1px;
+  margin: 0 auto;
+  background: none;
+  border-left: 1px dashed #ced4da; /* Softer gray */
+  height: 100%;
+}
+
+
+/* --- Message Arrows (Solid) --- */
+.message {
+  position: absolute;
+  height: 1.5px; /* Slightly thicker */
+  background: #007bff; /* Primary blue */
+  top: var(--y);
+  border-radius: 0;
+  left: calc((var(--from) - 1) * (100% / 7) + (100% / 14));
+  width: calc((var(--to) - var(--from)) * (100% / 7));
+}
+
+/* --- Message Arrows (Dashed) --- */
+.message.dashed {
+  left: calc((var(--to) - 1) * (100% / 7) + (100% / 14));
+  width: calc((var(--from) - var(--to)) * (100% / 7));
+  background: repeating-linear-gradient(
+    90deg,
+    #007bff,
+    #007bff 4px,
+    transparent 4px,
+    transparent 8px
+  );
+}
+
+/* Arrowhead for FORWARD messages */
+.message::before {
+  content: '';
+  position: absolute;
+  right: 0px;
+  top: -4px;
+  border-left: 8px solid #007bff; /* Primary blue */
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+
+/* Arrowhead for RETURN messages */
+.message.dashed::before {
+  border-left: none;
+  border-right: 8px solid #007bff; /* Primary blue */
+  left: 0px;
+  right: auto;
+  top: -4px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+
+.message span,
+.message br {
+  display: inline;
+}
+
+/* --- Message Labels --- */
+.message .label,
+.message span.guard {
+  font-size: 13px;
+  background: white;
+  padding: 0 4px;
+  border-radius: 0;
+  box-shadow: none;
+  color: #333;
+  white-space: nowrap;
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6; /* <-- THIS IS THE FIX (makes label appear over activation box) */
+}
+
+.guard {
+  display: inline;
+  font-size: 13px;
+  color: #333;
+  font-style: normal;
+}
+
+/* --- Activation Boxes --- */
+.activation {
+  position: absolute;
+  width: 10px;
+  background: white;
+  border: 1px solid #34495e; /* Dark slate blue border */
+  z-index: 5; /* This was causing the problem */
+  left: calc((var(--actor) - 1) * (100% / 7) + (100% / 14) - 6px);
+  top: var(--y-start);
+  height: calc(var(--y-end) - var(--y-start));
+}
